@@ -3,14 +3,11 @@
 #include "resource.h"
 
 namespace GOTHIC_ENGINE {
-
-  // TO DO
-  // Your code ...
-
   void Game_Entry() {
   }
   
   void Game_Init() {
+    loadManager.Init();
   }
 
   void Game_Exit() {

@@ -3,6 +3,9 @@
 
 // Automatically generated block
 #pragma region Includes
+#include "nlohmann/json.hpp"
+#include "Randomizer.h"
+#include "Loading.h"
 #include "Plugin.h"
 #pragma endregion
 

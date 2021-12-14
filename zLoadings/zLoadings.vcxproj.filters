@@ -214,6 +214,12 @@
     <Filter Include="Engine SDK\4. Gothic II NoTR\Overloads">
       <UniqueIdentifier>{225cc81e-eae0-432b-9f39-e93512644977}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugin\Workspace\Misc">
+      <UniqueIdentifier>{213c2151-8ade-4539-b2d3-c8b1e1976f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin\Workspace\Loading">
+      <UniqueIdentifier>{d7f591be-0cf6-49f2-a4f1-d8eb7b511419}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Interface.cpp">
@@ -2778,6 +2784,15 @@
       <Filter>Plugin\Workspace\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Loading.cpp">
+      <Filter>Plugin\Workspace\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="Randomizer.h">
+      <Filter>Plugin\Workspace\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading.h">
+      <Filter>Plugin\Workspace\Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".build_settings.inl">

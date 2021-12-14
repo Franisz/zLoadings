@@ -3,3 +3,5 @@
 // User API for oCGame
 // Add your methods here
 
+void __thiscall OpenLoadscreen_Union( bool, zSTRING );
+void __thiscall CloseLoadscreen_Union();
