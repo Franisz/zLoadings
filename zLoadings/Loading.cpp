@@ -19,7 +19,7 @@ namespace GOTHIC_ENGINE {
     if ( !jsonFile["loadings"].is_array() )
       return;
 
-    if( jsonFile["loadings"].size() < 1 )
+    if ( jsonFile["loadings"].size() < 1 )
       return;
 
     int rand = randomizer.Random( 0, jsonFile["loadings"].size() - 1 );
