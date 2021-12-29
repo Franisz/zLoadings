@@ -38,6 +38,7 @@ namespace GOTHIC_ENGINE {
   }
 
   void LoadEnd() {
+    loadManager.GetRandom();
   }
 
   void Game_LoadBegin_NewGame() {
@@ -57,10 +58,12 @@ namespace GOTHIC_ENGINE {
   }
 
   void Game_LoadBegin_ChangeLevel() {
+    loadManager.loadingZen = true;
     LoadBegin();
   }
 
   void Game_LoadEnd_ChangeLevel() {
+    loadManager.loadingZen = false;
     LoadEnd();
   }
 

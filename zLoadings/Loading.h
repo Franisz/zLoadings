@@ -21,6 +21,7 @@ namespace GOTHIC_ENGINE {
   public:
     string text;
     string splash;
+    bool loadingZen;
 
     void GetRandom();
     void SetScreen();

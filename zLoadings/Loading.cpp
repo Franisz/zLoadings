@@ -86,7 +86,7 @@ namespace GOTHIC_ENGINE {
 
     // Set screen texture
     if ( zCTexture* tex = tex->Load( Z splash, true ) ) {
-      ogame->load_screen->InsertBack( splash );
+      ogame->load_screen->InsertBack( tex );
       tex->Release();
     }
   }
@@ -123,22 +123,18 @@ namespace GOTHIC_ENGINE {
     lang = GetSysPackLanguage().Lower();
   }
 
-  HOOK Hook_oCGame_OpenLoadscreen PATCH( &oCGame::OpenLoadscreen, &oCGame::OpenLoadscreen_Union );
-  void oCGame::OpenLoadscreen_Union( bool a1, zSTRING a2 ) {
+  HOOK Hook_zCView_InsertItem PATCH( &zCView::InsertItem, &zCView::InsertItem_Union );
+  void zCView::InsertItem_Union( zCView* a1, int a2 = False ) {
+    THISCALL( Hook_zCView_InsertItem )(a1, a2);
 
-    // Skip on ZEN change
-    if ( a2.Length() ) {
-      THISCALL( Hook_oCGame_OpenLoadscreen )(a1, a2);
+    if ( !ogame || this != ogame->load_screen )
       return;
-    }
 
-    if ( !ogame->load_screen ) {
-      THISCALL( Hook_oCGame_OpenLoadscreen )(a1, a2);
+    if ( loadManager.loadingZen )
+      return;
+
+    if ( !loadManager.splash.Length() )
       loadManager.GetRandom();
-    }
-
-    if ( !loadManager.splash.Length() && !loadManager.text.Length() )
-      return;
 
     loadManager.SetScreen();
   }
