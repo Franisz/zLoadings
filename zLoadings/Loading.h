@@ -14,7 +14,7 @@ namespace GOTHIC_ENGINE {
 
     zCView* quoteView;
 
-    void SetLanguage();
+    string GetSysPackLanguage();
     void TryAddText();
     void ParseConfig();
 

@@ -4,7 +4,7 @@
 #include <codecvt>
 
 namespace GOTHIC_ENGINE {
-  std::string utf8_to_ansi( const std::string& str, const std::locale& loc = std::locale{} ) {
+  std::string utf8_to_ansi( const std::string& str, const std::locale& loc = std::locale( "." + std::to_string( ANSI_CODEPAGE_DEFAULT ) ) ) {
     using wcvt = std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>;
     auto wstr = wcvt{}.from_bytes( str );
     std::string result( wstr.size(), '0' );
@@ -28,13 +28,13 @@ namespace GOTHIC_ENGINE {
       return;
 
     if ( jsonFile["loadings"][rand]["splash"].is_string() )
-      splash = utf8_to_ansi( jsonFile["loadings"][rand]["splash"].get<std::string>(), locale ).c_str();
+      splash = utf8_to_ansi( jsonFile["loadings"][rand]["splash"].get<std::string>() ).c_str();
 
     if ( !jsonFile["loadings"][rand]["text"].is_object() )
       return;
 
     if ( jsonFile["loadings"][rand]["text"][lang.ToChar()].is_string() )
-      text = utf8_to_ansi( jsonFile["loadings"][rand]["text"][lang.ToChar()].get<std::string>(), locale ).c_str();
+      text = utf8_to_ansi( jsonFile["loadings"][rand]["text"][lang.ToChar()].get<std::string>() ).c_str();
   }
 
   void LoadManager::ClearScreen() {
@@ -53,7 +53,7 @@ namespace GOTHIC_ENGINE {
 
     // Try font change
     if ( jsonFile["font"].is_string() )
-      if ( auto sym = parser->GetSymbol( Z utf8_to_ansi( jsonFile["font"].get<std::string>(), locale ).c_str() ) )
+      if ( auto sym = parser->GetSymbol( Z utf8_to_ansi( jsonFile["font"].get<std::string>() ).c_str() ) )
         if ( sym->stringdata && sym->stringdata->Length() )
           ogame->load_screen->SetFont( sym->stringdata );
 
@@ -111,37 +111,16 @@ namespace GOTHIC_ENGINE {
     jsonFile = nlohmann::json::parse( buffer.ToChar() );
   }
 
-  void LoadManager::SetLanguage() {
-    string sym = "";
-    switch ( Union.GetSystemLanguage() )
-    {
-    case Lang_Rus:
-      sym = "ru";
-      break;
-    case Lang_Ger:
-      sym = "de";
-      break;
-    case Lang_Pol:
-      sym = "pl";
-      break;
-    default:
-      sym = "en";
-      break;
-    }
-
-    lang = A zoptions->ReadString( PLUGIN_NAME, "LanguageSymbol", sym ).Lower();
-
-    if ( lang == "pl" )
-      locale = std::locale( ".1250" );
-    else if ( lang == "ru" )
-      locale = std::locale( ".1251" );
-    else
-      locale = std::locale( ".1252" );
+  string LoadManager::GetSysPackLanguage()
+  {
+    string lang;
+    Union.GetSysPackOption().Read( lang, "CORE", "Language" );
+    return (lang.Length()) ? lang : "eng";
   }
 
   void LoadManager::Init() {
     ParseConfig();
-    SetLanguage();
+    lang = GetSysPackLanguage().Lower();
   }
 
   HOOK Hook_oCGame_OpenLoadscreen PATCH( &oCGame::OpenLoadscreen, &oCGame::OpenLoadscreen_Union );
